@@ -1,24 +1,30 @@
-var requestURL = 'http://techslides.com/demos/country-capitals.json';
-var request = new XMLHttpRequest();
-request.open('GET', requestURL);
-request.responseType = 'json';
-request.send();
-var countries = request.response;
-
+var JSONdata;
+var countryAmount;
 var lati = 0;
 var longi = 0;
+var randomCapitalPre = 0;
+var randomCapital = 0; 
+
+$(document).ready(function(){
+    console.log('@ready');
+    $.getJSON('countries.json', function(data) {
+        JSONdata = data;
+        countryAmount = JSONdata.length;
+    });
+});
 
 document.getElementById('btn').addEventListener("click", function() {
-    lati = Math.random() * ((+90) - (-90)) + (-90);
-    longi = Math.random() * ((+180) - (-180)) + (-180);
+    randomCapitalPre = Math.random() * ((countryAmount - 1) - 0) + 0;
+    randomCapital = Math.round(randomCapitalPre);
+    lati = JSONdata[randomCapital].latlng[0];
+    longi = JSONdata[randomCapital].latlng[1];
     initMap();
-    console.log(countries.CountryName)
 });
 
 function initMap() {
         var newPlace = {lat: lati, lng: longi};
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
+          zoom: 7,
           center: newPlace
         });
         var marker = new google.maps.Marker({
