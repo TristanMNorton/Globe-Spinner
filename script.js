@@ -9,6 +9,7 @@ var btn = document.getElementById('btn');
 var map;
 var service;
 var infowindow;
+var listedResults = [];
 
 // Extracts information of the top 1000 most populated cities in the US
 $(document).ready(function(){
@@ -57,9 +58,9 @@ function initMap() {
             results.sort(function(a,b) {
                 return b.rating - a.rating;
             });
-          for (var i = 0; i < results.length; i++) {
+          for (var i = 0; i < 5; i++) {
             createMarker(results[i]);
-            console.log(results[i].name + results[i].rating);
+            listedResults[i] = results[i];
           }
         }
     }
